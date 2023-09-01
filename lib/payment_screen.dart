@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:payment_project_flutter/home_screen.dart';
 class PaymentScreen extends StatefulWidget {
   var money;
    PaymentScreen({super.key,required this.money});
@@ -40,7 +41,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Map<String, dynamic>? paymentIntentData;
   Future<void> makePayment() async {
     try {
-      paymentIntentData = await createPaymentIntent(widget.money.toString(), 'USD'); //json.decode(response.body);
+      double decimalAmount = money; // Replace this with your actual amount
+      int integerAmount = (decimalAmount * 100) .toInt();
+      paymentIntentData = await createPaymentIntent(integerAmount.toString(), 'USD'); //json.decode(response.body);
       // print('Response body==>${response.body.toString()}');
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
@@ -58,7 +61,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       print('this is not working');
       displayPaymentSheet();
       print('this is working');
-    } catch (e, s) {
+    } catch (e) {
       print('Payment exception : $e .......');
     }
   }
@@ -102,7 +105,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   createPaymentIntent(var amount, String currency) async {
     try {
       Map<String, dynamic> body = {
-        'amount': calculateAmount(amount),
+        'amount': amount.toString(),
         'currency': currency,
         'payment_method_types[]': 'card',
       };
@@ -120,8 +123,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       print('err charging user: ${err.toString()}');
     }
   }
-  calculateAmount(String amount) {
-    final a = int.parse(amount)*100;
-    return a.toString();
-  }
+  // calculateAmount(String amount) {
+  //   final a = int.parse(amount)*100;
+  //   return a.toString();
+  // }
 }

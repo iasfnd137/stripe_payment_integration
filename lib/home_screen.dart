@@ -24,21 +24,21 @@ class _HomeScreenState extends State<HomeScreen> {
             Text('Select Payment'),
             ElevatedButton(onPressed: (){
               setState(() {
-                var money1 = 6;
+                var money1 = 6.35;
                 money = money1;
               });
             }, child: Text('\$6')),
             const SizedBox(height: 20,),
             ElevatedButton(onPressed: (){
               setState(() {
-                var money2 = 26;
+                var money2 = 26.5;
                 money = money2;
               });
             }, child: const Text('\$26')),
             const SizedBox(height: 20,),
             ElevatedButton(onPressed: (){
               setState(() {
-                var money3 = 45;
+                var money3 = 45.34;
                 money = money3;
               });
             }, child: const Text('\$45')),
